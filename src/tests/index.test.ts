@@ -58,15 +58,7 @@ describe("Index Test", () => {
         expect(res.body).not.to.be.empty;
         findstub.restore();
     });
-    it('/api/tasks should return 500 if something fails from DB', async function () {
-        const findstub =  stub(Task, 'findAndCountAll');
-        findstub.withArgs().returns(new Promise((resolve, reject) => {
-           reject(new Error("Some Random Error"))
-          }));
-        const res = await request(app).get('/api/tasks');
-        expect(res.status).to.equal(500);
-        findstub.restore();
-    });
+   
     it('should GET /api/tasks/:id', async function() {
         const findOnestub =  stub(Task, 'findByPk');
         findOnestub.withArgs().returns(new Promise((resolve, reject) => {
@@ -161,5 +153,15 @@ describe("Index Test", () => {
         expect(res.body).not.to.be.empty;
         deleteStub.restore();
     })
+
+    it('/api/tasks should return 500 if something fails from DB', async function () {
+        const findstub =  stub(Task, 'findAndCountAll');
+        findstub.withArgs().returns(new Promise((resolve, reject) => {
+           reject(new Error("Some Random Error"))
+          }));
+        const res = await request(app).get('/api/tasks');
+        expect(res.status).to.equal(500);
+        findstub.restore();
+    });
 });
 
